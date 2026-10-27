@@ -114,6 +114,7 @@ final class SitemapGeneratorTest extends TestCase
 
         foreach ([$index, $child] as $xml) {
             self::assertStringContainsString("?>\n<?xml-stylesheet type=\"text/css\" href=\"/sitemap.css\"?>\n<", $xml);
+            self::assertStringContainsString('<meta xmlns="http://www.w3.org/1999/xhtml" name="viewport" content="width=device-width, initial-scale=1"/>', $xml, 'phones lay the styled XML out at device width');
             self::assertStringContainsString('<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/theme/site/sitemap.js"></script>', $xml);
         }
 
@@ -126,7 +127,9 @@ final class SitemapGeneratorTest extends TestCase
                 'script' => true,
             ],
         ]);
-        self::assertStringContainsString('src="/sitemap-ui.js"', $harness->generator()->index($harness->config, false));
+        $index = $harness->generator()->index($harness->config, false);
+        self::assertStringContainsString('src="/sitemap-ui.js"', $index);
+        self::assertStringNotContainsString('<meta', $index, 'the script sets its own viewport');
     }
 
     public function testRemovingAUrlMovesTheChildLastmodForward(): void
