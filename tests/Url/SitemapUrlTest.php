@@ -25,7 +25,7 @@ final class SitemapUrlTest extends TestCase
     }
 
     /**
-     * Spec §4.2: each language version has its own <url> with the full reciprocal
+     * Each language version has its own <url> with the full reciprocal
      * set, including a self-reference.
      */
     public function testEveryLanguageGetsTheFullReciprocalSet(): void

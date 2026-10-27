@@ -20,7 +20,7 @@ use Tomvondracek\Sitemap\Url\SitemapUrl;
  *         }
  *     }
  *
- * URLs must be absolute and on the site's host (spec §1.3). The sitemap is
+ * URLs must be absolute and on the site's host. The sitemap is
  * cached until content changes, so listeners must not depend on the request.
  */
 final class SitemapUrlsEvent extends Event

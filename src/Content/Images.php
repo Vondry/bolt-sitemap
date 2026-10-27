@@ -12,7 +12,7 @@ use Tomvondracek\Sitemap\SitemapConfig;
 use Tomvondracek\Sitemap\Url\SiteUrl;
 
 /**
- * The images of a record for `<image:image>` (spec §4.3): by default its first
+ * The images of a record for `<image:image>`: by default its first
  * image, the one Bolt's `|image` filter returns; with `images.fields` configured
  * for its ContentType, every image in those image and imagelist fields.
  */

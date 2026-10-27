@@ -15,7 +15,7 @@ use Tomvondracek\Sitemap\SitemapConfigLoader;
 use Tomvondracek\Sitemap\Url\SiteLocales;
 
 /**
- * The segments of the sitemap index (spec §4.1): the main one (homepage,
+ * The segments of the sitemap index: the main one (homepage,
  * singletons, static routes), one per ContentType with a listing page or
  * records to list, and one per configured taxonomy.
  *
@@ -153,7 +153,7 @@ final class SegmentRegistry implements ResetInterface
 
     /**
      * Whether the ContentType's listing page is listed: it has one and shows at
-     * least one published record. An empty listing is a thin page (spec §3).
+     * least one published record. An empty listing is a thin page.
      */
     public function hasListing(SitemapConfig $config, ContentType $contentType): bool
     {

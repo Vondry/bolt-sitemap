@@ -12,8 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Remembers when the set of URLs in a sitemap, or the set of records on a listing
- * page, last changed, so a removal moves `<lastmod>` forward too (spec §1.4,
- * §4.1). The newest `<lastmod>` of the remaining URLs alone misses removals.
+ * page, last changed, so a removal moves `<lastmod>` forward too. The newest
+ * `<lastmod>` of the remaining URLs alone misses removals.
  *
  * Kept in a small JSON file next to Bolt's own data, outside the cache, so
  * `cache:clear` doesn't forget it. A set seen for the first time has no known

@@ -27,7 +27,7 @@ final readonly class SitemapUrl
 
     /**
      * One URL per locale, each with the complete, reciprocal set of alternates
-     * including itself (spec §4.2). A page in one language gets no alternates.
+     * including itself. A page in one language gets no alternates.
      *
      * @param array<string, string> $urlsByLocale locale => absolute URL
      * @param string|null $defaultLocale locale of the `x-default` alternate; null = none
@@ -60,7 +60,7 @@ final readonly class SitemapUrl
 
     /**
      * W3C Datetime in UTC (`2026-10-22T06:51:00+00:00`), or null when unknown: a
-     * timezone offset is never hardcoded (spec §1.4).
+     * timezone offset is never hardcoded.
      */
     public function lastmodW3c(): ?string
     {

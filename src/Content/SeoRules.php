@@ -11,7 +11,7 @@ use Tomvondracek\Sitemap\Url\SiteUrl;
 
 /**
  * Which pages the bolt-seo extension (appolodev/bolt-seo) keeps out of search
- * results: a sitemap must not list them (spec §3). Without that extension
+ * results: a sitemap must not list them. Without that extension
  * installed, every page is listed.
  *
  * The robots and canonical values are resolved like bolt-seo's `Seo` class does:

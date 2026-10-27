@@ -155,7 +155,7 @@ final readonly class SegmentUrls
 
     /**
      * A listing page's `<lastmod>` is the later of its newest record's and the
-     * last time a record was added or removed (spec §1.4).
+     * last time a record was added or removed.
      *
      * @return list<SitemapUrl>
      */

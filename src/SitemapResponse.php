@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 
 /**
- * Builds the response for a sitemap or one of its human-view assets (spec §6.1):
+ * Builds the response for a sitemap or one of its human-view assets:
  * `application/xml; charset=UTF-8`, `X-Robots-Tag: noindex` (keeps the file
  * itself out of search results) and a content-hash ETag, which changes on
  * additions, edits and removals alike. There is deliberately no `Last-Modified`:
@@ -61,7 +61,7 @@ final class SitemapResponse
     }
 
     /**
-     * Nothing may precede `<?xml` (spec §1.1): browsers reject the file. A BOM or a
+     * Nothing may precede `<?xml`: browsers reject the file. A BOM or a
      * blank line from an overridden template is removed, as is any trailing
      * whitespace, which is replaced by one newline.
      *

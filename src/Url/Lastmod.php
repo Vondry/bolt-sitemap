@@ -9,7 +9,7 @@ use DateTimeInterface;
 use DateTimeZone;
 
 /**
- * `<lastmod>` values (spec §1.4).
+ * `<lastmod>` values.
  */
 final class Lastmod
 {

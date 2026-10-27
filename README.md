@@ -1,8 +1,8 @@
 # XML Sitemap for Bolt CMS
 
-Serves a sitemap index at `/sitemap.xml` for a Bolt 6 site, generated from its content and routes and following
-[`sitemap-xml-specification-v3.md`](sitemap-xml-specification-v3.md) (sitemaps.org 0.9 plus Google's image and
-`hreflang` extensions). It replaces `bolt/sitemap-extension`. Without any theme override it gets these right:
+Serves a sitemap index at `/sitemap.xml` for a Bolt 6 site, generated from its content and routes, following the
+[sitemaps.org protocol](https://www.sitemaps.org/protocol.html) 0.9 and Google's image and `hreflang` extensions. It
+replaces `bolt/sitemap-extension`. Without any theme override it gets these right:
 
 - **one `<url>` per page and language**, each with the complete, reciprocal set of `hreflang` alternates, including
   itself and `x-default`
@@ -53,7 +53,7 @@ Sitemap: https://example.com/sitemap.xml
 ```
 
 Remove a static `public/sitemap.xml` if there is one: Apache and nginx serve existing files before Symfony gets the
-request. For the same reason, don't add an nginx `location` for `sitemap*.xml` (spec §6.3).
+request. For the same reason, don't add an nginx `location` for `sitemap*.xml`.
 
 ## What is listed
 
@@ -108,7 +108,7 @@ images:
 ```
 
 An empty list lists none (e.g. `homepage: []` when its first image is a decorative badge). At most 1,000 images
-per URL, each once. Only list images that are content, not logos or icons (spec §4.3).
+per URL, each once. Only list images that are content, not logos or icons.
 
 ### With bolt-seo (optional)
 
@@ -116,7 +116,7 @@ The extension works on its own and never requires [appolodev/bolt-seo](https://g
 Without it, every published page with a URL is listed. With it installed, nothing needs to be configured; the
 sitemap simply follows what editors set there.
 
-**What you get:** the sitemap and the pages never send search engines conflicting signals (spec §3). A page that
+**What you get:** the sitemap and the pages never send search engines conflicting signals. A page that
 bolt-seo renders with `noindex` (or `none`), or with a canonical URL pointing to another page, is left out of the
 sitemap:
 
@@ -188,13 +188,13 @@ An unknown key or a value of the wrong type is an error that names the problem. 
 
 ## Showing the sitemap in a browser
 
-Crawlers read the XML and ignore everything below. By default a browser shows the raw XML (spec §5, method C). Chrome
+Crawlers read the XML and ignore everything below. By default a browser shows the raw XML. Chrome
 removes XSLT on November 17, 2026, so the extension never uses it. There are two opt-in alternatives:
 
 - **`human_view: { stylesheet: true }`** adds `<?xml-stylesheet type="text/css" href="/sitemap.css"?>`: a styled list
-  of URLs and dates. No JavaScript, but the URLs are not links (method A).
+  of URLs and dates. No JavaScript, but the URLs are not links.
 - **`human_view: { script: true }`** adds an XHTML `<script>` as the first element. It renders a table with links,
-  images and `hreflang` pills, 1,000 rows at a time (method B). With a strict Content Security Policy, allow
+  images and `hreflang` pills, 1,000 rows at a time. With a strict Content Security Policy, allow
   `/sitemap-ui.js`.
 
 Both can be on at once, and either can be the URL of your own file instead of `true`
@@ -258,7 +258,7 @@ config:
 - To drop only the sitemaps: `bin/console cache:pool:invalidate-tags tomvondracek_sitemap`.
 
 Browsers and crawlers revalidate with the ETag, which changes on additions, edits and removals alike. There is
-deliberately no `Last-Modified` header: taken from the newest `<lastmod>`, it would hide removals (spec §6.1).
+deliberately no `Last-Modified` header: taken from the newest `<lastmod>`, it would hide removals.
 
 ## Migrating from bolt/sitemap-extension
 
@@ -287,7 +287,7 @@ keeps working.
 
 ## Checking a deployment
 
-The checklist of spec §7, for example:
+For example:
 
 ```bash
 curl -s https://example.com/sitemap.xml | head -c 5 | xxd      # 3c3f 786d 6c: <?xml

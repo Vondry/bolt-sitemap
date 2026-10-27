@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * The site's address as `|link(true)` writes it: the host from `general/canonical`
  * when set, otherwise the request's. Every URL in the sitemap is resolved against
- * it, so one file never mixes hosts (spec §1.3).
+ * it, so one file never mixes hosts.
  */
 final readonly class SiteUrl
 {

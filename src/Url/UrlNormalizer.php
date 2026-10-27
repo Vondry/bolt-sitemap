@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tomvondracek\Sitemap\Url;
 
 /**
- * Makes a URL safe for a sitemap (spec §1.1): a non-ASCII host in Punycode, and
+ * Makes a URL safe for a sitemap: a non-ASCII host in Punycode, and
  * every byte of the path, query and fragment outside RFC 3986 percent-encoded
  * (`/služby` → `/slu%C5%BEby`, a space → `%20`). Existing escapes are kept, so
  * normalizing twice changes nothing.

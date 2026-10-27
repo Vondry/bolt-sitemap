@@ -14,7 +14,7 @@ final class SitemapResponseTest extends TestCase
     private const XML = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>';
 
     /**
-     * Spec §6.1.
+     * Content type, noindex, public caching and a content-hash ETag.
      */
     public function testHeaders(): void
     {
@@ -61,7 +61,7 @@ final class SitemapResponseTest extends TestCase
     }
 
     /**
-     * Spec §1.1: nothing may precede `<?xml`.
+     * Nothing may precede `<?xml`.
      */
     public function testNothingPrecedesTheXmlDeclaration(): void
     {

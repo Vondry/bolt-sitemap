@@ -9,7 +9,7 @@ use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 /**
  * Keeps generated sitemaps in the app cache, so a crawler request doesn't query
- * the database and render again while nothing has changed (spec §6.3).
+ * the database and render again while nothing has changed.
  *
  * An entry lives as long as browsers and crawlers may cache the response
  * (`max_age`), so the server is never staler than a shared cache already may be.

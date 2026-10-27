@@ -16,8 +16,8 @@ final class UrlNormalizerTest extends TestCase
     public static function urls(): iterable
     {
         yield 'plain' => ['https://example.com/about', 'https://example.com/about'];
-        yield 'diacritics in the path (spec §1.1)' => ['https://example.com/služby?a=1&b=2', 'https://example.com/slu%C5%BEby?a=1&b=2'];
-        yield 'IDN host in Punycode (spec §1.1)' => ['https://háčky.cz/služby', 'https://xn--hky-ela4t.cz/slu%C5%BEby'];
+        yield 'diacritics in the path' => ['https://example.com/služby?a=1&b=2', 'https://example.com/slu%C5%BEby?a=1&b=2'];
+        yield 'IDN host in Punycode' => ['https://háčky.cz/služby', 'https://xn--hky-ela4t.cz/slu%C5%BEby'];
         yield 'space' => ['https://example.com/files/my photo.jpg', 'https://example.com/files/my%20photo.jpg'];
         yield 'existing escapes kept' => ['https://example.com/slu%C5%BEby', 'https://example.com/slu%C5%BEby'];
         yield 'lone percent' => ['https://example.com/100%', 'https://example.com/100%25'];

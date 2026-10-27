@@ -22,8 +22,8 @@ use Tomvondracek\Sitemap\TemplateRenderer;
  * /sitemap-<name>.xml and, when enabled, the stylesheet and script that show a
  * sitemap to people opening it in a browser.
  *
- * Every URL returns the same XML whatever the `Accept` header or user agent
- * (spec §5): there is no content negotiation.
+ * Every URL returns the same XML whatever the `Accept` header or user agent:
+ * there is no content negotiation.
  *
  * Every dependency is a service, so Bolt's generated config/services_bolt.yaml
  * (autowiring without the project's binds) registers the controller as it is.

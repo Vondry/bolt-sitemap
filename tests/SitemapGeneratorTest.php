@@ -17,7 +17,7 @@ use Tomvondracek\Sitemap\Url\SitemapUrl;
 
 /**
  * The rendered XML, checked against the sitemaps.org, Google image and XHTML
- * schemas (spec §7) and the spec's rules.
+ * schemas and the sitemap protocol's rules.
  */
 final class SitemapGeneratorTest extends TestCase
 {
@@ -98,7 +98,7 @@ final class SitemapGeneratorTest extends TestCase
     }
 
     /**
-     * Spec §5: methods A and B, together or alone.
+     * The stylesheet and the script for browsers, together or alone.
      */
     public function testHumanView(): void
     {

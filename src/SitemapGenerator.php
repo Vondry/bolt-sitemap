@@ -18,7 +18,7 @@ use Tomvondracek\Sitemap\Url\SiteUrl;
  * Generates the sitemap index and its child sitemaps.
  *
  * A child's `<lastmod>` in the index is the later of its newest URL's and the
- * last time a URL was added to or removed from it (spec §4.1); a child without
+ * last time a URL was added to or removed from it; a child without
  * either has none. Children without URLs are left out: an empty `<urlset>` is not
  * valid.
  */
@@ -104,7 +104,7 @@ final readonly class SitemapGenerator
 
     /**
      * The `href` of the stylesheet and the `src` of the script for people opening
-     * the sitemap in a browser (spec §5), or null for none.
+     * the sitemap in a browser, or null for none.
      *
      * @return array{stylesheet: string|null, script: string|null}
      */
