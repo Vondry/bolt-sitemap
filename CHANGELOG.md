@@ -6,6 +6,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-27
+
+First release.
+
 ### Added
 
 - `/sitemap.xml` as a sitemap index with one child sitemap per segment: the
@@ -31,4 +35,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   or your own files.
 - `SitemapUrlsEvent` to add, remove or change URLs.
 
-[Unreleased]: https://github.com/Vondry/bolt-sitemap/commits/main
+[Unreleased]: https://github.com/Vondry/bolt-sitemap/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/Vondry/bolt-sitemap/releases/tag/v1.0.0
