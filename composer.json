@@ -1,38 +1,62 @@
 {
-    "name": "acmecorp/reference-extension",
-    "description": "📦 This Bolt extension can be used as a starting point to base your own extensions on.",
+    "name": "tomvondracek/bolt-sitemap",
+    "description": "Bolt CMS extension that serves a spec-compliant XML sitemap index: per-locale hreflang, slugless singletons, static routes, images, removal-aware lastmod, ETag caching and no XSLT.",
     "type": "bolt-extension",
     "license": "MIT",
+    "keywords": ["bolt", "bolt-extension", "sitemap", "xml-sitemap", "hreflang", "seo", "twig"],
     "authors": [
         {
-            "name": "YourNameHere",
-            "email": "youremail@acme.com"
+            "name": "Tomáš Vondráček",
+            "email": "tomasvondrac@gmail.com"
         }
     ],
     "require": {
         "php": ">=8.2",
-        "twig/twig": "^3.3"
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "symfony/polyfill-intl-idn": "^1.43",
+        "symfony/polyfill-php84": "^1.43",
+        "twig/twig": "^3.30"
     },
     "require-dev": {
-        "bolt/core": "^6.0",
+        "bolt/core": "^6.1.10",
         "phpstan/extension-installer": "1.4.3",
-        "phpstan/phpstan": "2.1.31",
-        "phpstan/phpstan-deprecation-rules": "2.0.3",
-        "rector/rector": "2.2.7",
-        "symplify/easy-coding-standard": "^13"
+        "phpstan/phpstan": "2.2.16",
+        "phpstan/phpstan-deprecation-rules": "2.0.5",
+        "phpunit/phpunit": "^11.5.57",
+        "rector/rector": "2.6.7",
+        "symplify/easy-coding-standard": "^13.3.11",
+        "phpstan/phpstan-phpunit": "2.0.21",
+        "phpstan/phpstan-strict-rules": "2.0.12",
+        "appolodev/bolt-seo": "^2.3"
+    },
+    "suggest": {
+        "appolodev/bolt-seo": "Pages editors mark noindex or give another canonical URL in bolt-seo are left out of the sitemap, so the sitemap never contradicts the pages' own robots and canonical tags."
+    },
+    "conflict": {
+        "bolt/core": "<6.0 || >=7.0",
+        "bolt/sitemap-extension": "*"
     },
     "autoload": {
         "psr-4": {
-            "AcmeCorp\\ReferenceExtension\\": "src/"
+            "Tomvondracek\\Sitemap\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tomvondracek\\Sitemap\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-main": "2.0.x-dev"
+            "dev-main": "1.0.x-dev"
         },
-        "entrypoint": "AcmeCorp\\ReferenceExtension\\Extension"
+        "entrypoint": "Tomvondracek\\Sitemap\\Extension"
     },
     "config": {
         "allow-plugins": {
