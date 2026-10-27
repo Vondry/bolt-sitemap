@@ -6,6 +6,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- The human view fits phone screens: the stylesheet adds an XHTML viewport `<meta>` to the
+  sitemap and stacks the date under each URL, and the script shows each row as a card instead
+  of a table that overflowed the screen.
+
 ## [1.0.0] - 2026-10-27
 
 First release.

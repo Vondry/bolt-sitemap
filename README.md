@@ -192,7 +192,8 @@ Crawlers read the XML and ignore everything below. By default a browser shows th
 removes XSLT on November 17, 2026, so the extension never uses it. There are two opt-in alternatives:
 
 - **`human_view: { stylesheet: true }`** adds `<?xml-stylesheet type="text/css" href="/sitemap.css"?>`: a styled list
-  of URLs and dates. No JavaScript, but the URLs are not links.
+  of URLs and dates. No JavaScript, but the URLs are not links. It also adds an XHTML viewport `<meta>`, without
+  which phones lay the XML out at desktop width.
 - **`human_view: { script: true }`** adds an XHTML `<script>` as the first element. It renders a table with links,
   images and `hreflang` pills, 1,000 rows at a time. With a strict Content Security Policy, allow
   `/sitemap-ui.js`.

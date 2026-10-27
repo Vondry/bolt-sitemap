@@ -6,7 +6,9 @@
                      alternates (hreflang => URL), images (URLs)
       hasImages      whether a URL has images (declare the image namespace)
       hasAlternates  whether a URL has hreflang alternates (declare xhtml)
-      stylesheet     href of the CSS for browsers, or null
+      stylesheet     href of the CSS for browsers, or null; also adds an XHTML
+                     viewport <meta>, without which phones lay the XML out at
+                     desktop width
       script         src of the script for browsers, or null
 
     Nothing may precede <?xml, so keep this comment's whitespace control.
@@ -19,6 +21,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 {%- if hasImages %} xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"{% endif %}
 {%- if hasAlternates %} xmlns:xhtml="http://www.w3.org/1999/xhtml"{% endif %}>
+{% if stylesheet %}
+  <meta xmlns="http://www.w3.org/1999/xhtml" name="viewport" content="width=device-width, initial-scale=1"/>
+{% endif %}
 {% if script %}
   <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="{{ script }}"></script>
 {% endif %}
