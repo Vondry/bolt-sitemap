@@ -1,3 +1,88 @@
-# Reference extension configuration file
+# XML sitemap – configuration
+#
+# Copied to config/extensions/tomvondracek-sitemap.yaml by
+# `bin/console extensions:configure --with-config`; edit it there. Without that
+# file these defaults apply.
+#
+# /sitemap.xml is a sitemap index. It points to one child sitemap per segment:
+#   /sitemap-main.xml       the homepage, singletons and static routes
+#   /sitemap-<slug>.xml     a ContentType: its listing page and its records
+#   /sitemap-taxonomy-<slug>.xml  the pages of a taxonomy (see `taxonomies`)
+# A ContentType with more URLs than `chunk_size` continues in
+# /sitemap-<slug>-2.xml, /sitemap-<slug>-3.xml and so on.
 
-foo: Bar
+# List the listing page of each ContentType (/<slug>), unless it is a singleton,
+# `viewless_listing: true` or `hide_listing_from_xml_sitemap: true`.
+listings: true
+
+# ContentTypes whose records are left out (their listing page stays).
+exclude_contenttypes: []
+
+# ContentTypes whose listing page is left out (their records stay).
+exclude_listings: []
+
+# Taxonomies whose pages are listed, e.g. [categories, tags].
+taxonomies: []
+
+# List the routes that render a template with Bolt's TemplateController, such as
+# the static pages in config/routes.yaml. A `<name>_locale` twin of a route
+# (path `/{_locale}/…`, same template) provides its other languages.
+static_routes: true
+
+# Names of static routes to leave out.
+exclude_static_routes: []
+
+# When a static route's page last changed, by route name. Without a date the URL
+# has no <lastmod>: a template file's modification time is the time of the last
+# deploy, not of the last content change.
+#   static_route_lastmod:
+#     about: 2026-10-01
+static_route_lastmod: {}
+
+# Name of the child sitemap with the homepage, singletons and static routes. It
+# must not be the slug of a ContentType.
+main_segment: main
+
+# Most URLs in one child sitemap; larger ContentTypes are split. The protocol
+# allows 50000.
+chunk_size: 10000
+
+# How long browsers, proxies and crawlers may cache a sitemap, in seconds. They
+# can revalidate with the ETag after that. The server keeps the generated XML
+# just as long, until content changes. 0 = generate on every request.
+max_age: 3600
+
+hreflang:
+  # Add an `x-default` alternate (the default locale's URL) to multilingual URLs.
+  x_default: true
+
+images:
+  # List images with <image:image>.
+  enabled: true
+  # Image and imagelist fields to list, by ContentType. Without an entry, a
+  # record's first image is listed: the one Bolt's `|image` filter returns.
+  #   fields:
+  #     products: [image, gallery]
+  fields: {}
+
+seo:
+  # Leave out pages the bolt-seo extension marks `noindex` or gives another
+  # canonical URL: by the record's SEO field or by `override_default`.
+  respect_noindex: true
+
+# What people see when they open a sitemap in a browser. Crawlers ignore it.
+# Without either, browsers show the raw XML.
+#   true   = the stylesheet or script shipped with the extension
+#            (/sitemap.css: a styled list; /sitemap-ui.js: a table with links)
+#   a URL  = your own file, e.g. /theme/my-theme/sitemap.css
+human_view:
+  stylesheet: false
+  script: false
+
+# Twig templates, looked up in your theme. While the theme has no file of the
+# default name, the one shipped with the extension is used.
+templates:
+  index: sitemap-index.xml.twig
+  urlset: sitemap-urlset.xml.twig
+  stylesheet: sitemap.css.twig
+  script: sitemap-ui.js.twig

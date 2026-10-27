@@ -1,3 +1,7 @@
-reference_extension:
-  resource: '../../vendor/acmecorp/reference-extension/src/Controller/'
+# /sitemap.xml and its child sitemaps. Copied to
+# config/routes/extension_bolt-sitemap.yaml by `extensions:configure`, which the
+# kernel loads before config/routes.yaml, so the routes win over Bolt's own
+# frontend routes.
+tomvondracek_sitemap:
+  resource: '../../vendor/tomvondracek/bolt-sitemap/src/Controller/'
   type: attribute

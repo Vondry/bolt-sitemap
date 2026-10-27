@@ -1,0 +1,42 @@
+{#-
+    A child sitemap: one <url> per page and locale.
+
+    Variables:
+      urls           list of Tomvondracek\Sitemap\Url\SitemapUrl: loc, lastmodW3c,
+                     alternates (hreflang => URL), images (URLs)
+      hasImages      whether a URL has images (declare the image namespace)
+      hasAlternates  whether a URL has hreflang alternates (declare xhtml)
+      stylesheet     href of the CSS for browsers, or null
+      script         src of the script for browsers, or null
+
+    Nothing may precede <?xml, so keep this comment's whitespace control.
+-#}
+{%- autoescape 'html' -%}
+<?xml version="1.0" encoding="UTF-8"?>
+{% if stylesheet %}
+<?xml-stylesheet type="text/css" href="{{ stylesheet }}"?>
+{% endif %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+{%- if hasImages %} xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"{% endif %}
+{%- if hasAlternates %} xmlns:xhtml="http://www.w3.org/1999/xhtml"{% endif %}>
+{% if script %}
+  <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="{{ script }}"></script>
+{% endif %}
+{% for url in urls %}
+  <url>
+    <loc>{{ url.loc }}</loc>
+{% if url.lastmodW3c %}
+    <lastmod>{{ url.lastmodW3c }}</lastmod>
+{% endif %}
+{% for hreflang, href in url.alternates %}
+    <xhtml:link rel="alternate" hreflang="{{ hreflang }}" href="{{ href }}"/>
+{% endfor %}
+{% for image in url.images %}
+    <image:image>
+      <image:loc>{{ image }}</image:loc>
+    </image:image>
+{% endfor %}
+  </url>
+{% endfor %}
+</urlset>
+{% endautoescape %}

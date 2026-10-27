@@ -1,0 +1,29 @@
+{#-
+    The sitemap index at /sitemap.xml: one <sitemap> per child sitemap.
+
+    Variables:
+      sitemaps    list of {loc: absolute URL, lastmod: W3C datetime or null}
+      stylesheet  href of the CSS for browsers, or null
+      script      src of the script for browsers, or null
+
+    Nothing may precede <?xml, so keep this comment's whitespace control.
+-#}
+{%- autoescape 'html' -%}
+<?xml version="1.0" encoding="UTF-8"?>
+{% if stylesheet %}
+<?xml-stylesheet type="text/css" href="{{ stylesheet }}"?>
+{% endif %}
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% if script %}
+  <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="{{ script }}"></script>
+{% endif %}
+{% for sitemap in sitemaps %}
+  <sitemap>
+    <loc>{{ sitemap.loc }}</loc>
+{% if sitemap.lastmod %}
+    <lastmod>{{ sitemap.lastmod }}</lastmod>
+{% endif %}
+  </sitemap>
+{% endfor %}
+</sitemapindex>
+{% endautoescape %}

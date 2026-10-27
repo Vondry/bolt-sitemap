@@ -1,1 +1,27 @@
-# An example of a services.yaml file in an extension
+# Copied to config/packages/extension_bolt-sitemap.yaml by `extensions:configure`.
+#
+# The extension's classes are auto-registered (autowired + autoconfigured) by
+# Bolt's generated config/services_bolt.yaml: the controller, the generator and
+# the response subscriber need nothing here.
+
+services:
+  # Drops the cached sitemaps when content changes. Doctrine listeners need a tag;
+  # this definition replaces the one from services_bolt.yaml, which the kernel
+  # loads first.
+  Tomvondracek\Sitemap\EventListener\ContentChangeListener:
+    autowire: true
+    tags:
+      - { name: doctrine.event_listener, event: onFlush }
+      - { name: doctrine.event_listener, event: postFlush }
+
+  # The interface the sitemap reads content through.
+  Tomvondracek\Sitemap\Content\ContentSource:
+    alias: Tomvondracek\Sitemap\Content\DoctrineContentSource
+
+# Register the @bolt-sitemap Twig namespace at container level, so it resolves
+# everywhere: web requests, the CLI (`debug:twig`, `lint:twig`, `cache:warmup`).
+# `BaseExtension::addTwigNamespace()` only prepends the path to the running Twig
+# environment during a web request, which leaves the console without it.
+twig:
+  paths:
+    '%kernel.project_dir%/vendor/tomvondracek/bolt-sitemap/templates': bolt-sitemap

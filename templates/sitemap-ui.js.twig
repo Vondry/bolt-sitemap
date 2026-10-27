@@ -1,0 +1,145 @@
+{#-
+    Renders a sitemap or sitemap index opened in a browser as a table with links,
+    without XSLT (spec §5, method B). Served at /sitemap-ui.js with
+    `human_view: { script: true }`; the sitemap loads it from a <script> element
+    in the XHTML namespace, the first child of its root.
+-#}
+{%- verbatim -%}
+(() => {
+  const SM  = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+  const IMG = 'http://www.google.com/schemas/sitemap-image/1.1';
+  const XH  = 'http://www.w3.org/1999/xhtml';
+  const BATCH = 1000; // rows rendered per step; keeps 50,000-URL sitemaps responsive
+
+  const CSS = `
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; max-width: 1080px; margin: 2.5rem auto; padding: 0 1rem;
+           background: Canvas; color: CanvasText; }
+    h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+    p.meta { opacity: .7; font-size: .9rem; margin: 0 0 1.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th { text-align: left; padding: 10px 12px; border-bottom: 2px solid light-dark(#e5e7eb, #374151); }
+    td { padding: 10px 12px; border-bottom: 1px solid light-dark(#e5e7eb, #374151); vertical-align: top; }
+    td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    tr:hover { background: light-dark(#f9fafb, #1f2937); }
+    a { color: light-dark(#1d4ed8, #93c5fd); text-decoration: none; word-break: break-all; }
+    a:hover { text-decoration: underline; }
+    .sub { display: block; margin-top: 4px; font-size: .8rem; opacity: .8; }
+    .hl { display: inline-block; margin: 4px 4px 0 0; padding: 0 6px; border-radius: 4px; font-size: .75rem;
+          background: light-dark(#eef2ff, #1e293b); }
+    button.more { margin: 1.5rem 0; padding: .5rem 1rem; font: inherit; cursor: pointer; }
+  `;
+
+  // Create an XHTML element; text goes through textContent, never through markup.
+  const el = (tag, attrs = {}, text) => {
+    const e = document.createElementNS(XH, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    if (text != null) e.textContent = text;
+    return e;
+  };
+
+  const isHttp = (url) => /^https?:\/\//i.test(url);
+
+  // Only http(s) URLs become links; anything else is shown as plain text.
+  const link = (url, text = url, attrs = {}) =>
+    isHttp(url) ? el('a', { ...attrs, href: url }, text) : el('span', attrs, text);
+
+  const first = (node, ns, name) =>
+    node.getElementsByTagNameNS(ns, name)[0]?.textContent.trim() ?? '';
+
+  const run = () => {
+    const root = document.documentElement;
+    if (root.namespaceURI !== SM) return; // not a sitemap, or already rendered
+
+    const isIndex = root.localName === 'sitemapindex';
+    const items = Array.from(root.getElementsByTagNameNS(SM, isIndex ? 'sitemap' : 'url'));
+
+    // Reading the data is cheap even for 50,000 entries; building DOM nodes is not.
+    const rows = items.map((node, i) => ({
+      n: i + 1,
+      loc: first(node, SM, 'loc'),
+      lastmod: first(node, SM, 'lastmod') || '—',
+      images: Array.from(node.getElementsByTagNameNS(IMG, 'loc'), e => e.textContent.trim()),
+      alternates: Array.from(node.getElementsByTagNameNS(XH, 'link'))
+        .filter(l => l.getAttribute('rel') === 'alternate')
+        .map(l => ({ lang: l.getAttribute('hreflang') || '?', href: l.getAttribute('href') || '' })),
+    }));
+
+    const renderRow = (r) => {
+      const tr = el('tr');
+      const urlCell = el('td');
+      urlCell.append(link(r.loc));
+      for (const img of r.images) {
+        const sub = el('span', { class: 'sub' }, '↳ ');
+        sub.append(link(img));
+        urlCell.append(sub);
+      }
+      if (r.alternates.length) {
+        // hreflang codes as pills, linking to each alternate (hover shows the URL)
+        const langs = el('span', { class: 'sub' });
+        for (const a of r.alternates) langs.append(link(a.href, a.lang, { class: 'hl', title: a.href }));
+        urlCell.append(langs);
+      }
+      tr.append(el('td', { class: 'num' }, String(r.n)), urlCell);
+      if (!isIndex) tr.append(el('td', { class: 'num' }, String(r.images.length)));
+      tr.append(el('td', { class: 'num' }, r.lastmod));
+      return tr;
+    };
+
+    const label = isIndex ? 'sitemaps' : 'URLs';
+    const html = el('html', { lang: 'en' });
+    const head = el('head');
+    head.append(
+      el('meta', { charset: 'utf-8' }),
+      el('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
+      el('title', {}, `XML Sitemap (${rows.length} ${label})`),
+      el('style', {}, CSS),
+    );
+
+    const body = el('body');
+    const meta = el('p', { class: 'meta' }, `This ${isIndex ? 'index' : 'sitemap'} lists `);
+    meta.append(el('strong', {}, String(rows.length)), ` ${label}.`);
+
+    const table = el('table');
+    const thead = el('thead');
+    const hr = el('tr');
+    hr.append(el('th', {}, '#'), el('th', {}, isIndex ? 'Sitemap' : 'URL · images · hreflang'));
+    if (!isIndex) hr.append(el('th', {}, 'Images'));
+    hr.append(el('th', {}, 'Last modified'));
+    thead.append(hr);
+    const tbody = el('tbody');
+    table.append(thead, tbody);
+
+    // Render in batches: the first BATCH rows immediately, the rest on demand.
+    let shown = 0;
+    const more = el('button', { type: 'button', class: 'more' });
+    const renderNext = () => {
+      const frag = document.createDocumentFragment();
+      const end = Math.min(shown + BATCH, rows.length);
+      for (; shown < end; shown++) frag.append(renderRow(rows[shown]));
+      tbody.append(frag);
+      if (shown < rows.length) {
+        more.textContent = `Show next ${Math.min(BATCH, rows.length - shown)} (${shown} of ${rows.length} shown)`;
+      } else {
+        more.remove();
+      }
+    };
+    more.addEventListener('click', renderNext);
+
+    body.append(el('h1', {}, 'XML Sitemap'), meta, table);
+    if (rows.length > BATCH) body.append(more);
+    renderNext();
+
+    html.append(head, body);
+    root.replaceWith(html);
+  };
+
+  // Mandatory: the script element sits BEFORE the <url> entries, so wait
+  // until the whole document has been parsed before reading it.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+{% endverbatim %}
