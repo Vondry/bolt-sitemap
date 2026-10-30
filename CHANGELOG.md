@@ -6,6 +6,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-30
+
+### Changed
+
+- Dependencies updated. The runtime requirements are unchanged; for development,
+  PHPStan 2.3.4, phpstan-phpunit 2.1.1, phpstan-strict-rules 2.1.0, Rector 2.8.3,
+  ECS 13.3.12 and PHPUnit 11.5.57.
+
 ## [1.1.0] - 2026-10-27
 
 ### Fixed
@@ -43,6 +51,7 @@ First release.
   or your own files.
 - `SitemapUrlsEvent` to add, remove or change URLs.
 
-[Unreleased]: https://github.com/Vondry/bolt-sitemap/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/Vondry/bolt-sitemap/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/Vondry/bolt-sitemap/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Vondry/bolt-sitemap/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Vondry/bolt-sitemap/releases/tag/v1.0.0
