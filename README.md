@@ -26,8 +26,8 @@ replaces `bolt/sitemap-extension`. Without any theme override it gets these righ
   per segment
 - `application/xml; charset=UTF-8`, `X-Robots-Tag: noindex` and a content-hash ETag (`304 Not Modified`). The XML is
   kept in Bolt's cache until content changes.
-- optionally, a readable view for people who open the sitemap in a browser, made without XSLT: a stylesheet, a script
-  rendering a table with links, or your own files
+- optionally, for development only, a readable view for people who open the sitemap in a browser, made without XSLT:
+  a stylesheet, a script rendering a table with links, or your own files
 
 ## Requirements
 
@@ -174,7 +174,7 @@ images:
   fields: {}                  # ContentType => image/imagelist fields; default: the first image
 seo:
   respect_noindex: true
-human_view:
+human_view:                   # development only, see "Showing the sitemap in a browser"
   stylesheet: false           # true = /sitemap.css, or the URL of your own CSS
   script: false               # true = /sitemap-ui.js, or the URL of your own script
 templates:
@@ -188,8 +188,13 @@ An unknown key or a value of the wrong type is an error that names the problem. 
 
 ## Showing the sitemap in a browser
 
-Crawlers read the XML and ignore everything below. By default a browser shows the raw XML. Chrome
-removes XSLT on November 17, 2026, so the extension never uses it. There are two opt-in alternatives:
+> [!WARNING]
+> `human_view` is for development only, so keep both options off in production. They add an XHTML `<meta>` or
+> `<script>` to the sitemap. These are not sitemap elements, so Google Search Console does not recognize them and
+> reports validation errors (`Invalid XML tag`).
+
+By default a browser shows the raw XML. Chrome removes XSLT on November 17, 2026, so the extension never uses it.
+There are two opt-in alternatives for development:
 
 - **`human_view: { stylesheet: true }`** adds `<?xml-stylesheet type="text/css" href="/sitemap.css"?>`: a styled list
   of URLs and dates. No JavaScript, but the URLs are not links. It also adds an XHTML viewport `<meta>`, without
