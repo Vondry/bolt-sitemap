@@ -6,6 +6,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- The documentation now says `human_view` is for development only: Google Search Console
+  does not recognize the `<meta>` and `<script>` elements it adds and reports validation errors.
+
 ## [1.1.1] - 2026-10-30
 
 ### Changed

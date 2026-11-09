@@ -70,7 +70,10 @@ seo:
   # canonical URL: by the record's SEO field or by `override_default`.
   respect_noindex: true
 
-# What people see when they open a sitemap in a browser. Crawlers ignore it.
+# What people see when they open a sitemap in a browser.
+# For development only, keep both off in production: the <meta> added by the
+# stylesheet and the <script> are not sitemap elements, so Google Search Console
+# does not recognize them and reports validation errors ("Invalid XML tag").
 # Without either, browsers show the raw XML.
 #   true   = the stylesheet or script shipped with the extension
 #            (/sitemap.css: a styled list; /sitemap-ui.js: a table with links)
