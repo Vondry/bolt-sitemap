@@ -69,7 +69,8 @@ final readonly class Images
     private function collect(Field $field, bool $firstOnly): array
     {
         if ($field instanceof ImageField) {
-            $path = $field->get('filename') ? (string) $field : '';
+            $filename = $field->get('filename');
+            $path = is_string($filename) && $filename !== '' ? (string) $field : '';
 
             return $path === '' ? [] : [$path];
         }
